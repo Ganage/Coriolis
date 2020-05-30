@@ -3,5 +3,5 @@
 Cheat sheet: https://github.com/Ganage/Coriolis/blob/master/CheatSheet.md
 
 
-** API commands
+## API commands
 !crit:  Roll from critical injury table
