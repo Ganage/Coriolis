@@ -12,8 +12,13 @@
   * Normal action: 2 AP
   * Fast action: 1 AP
   * Free action: 0 AP
-  
+
  *Reactions: It takes AP to defend; may require saving some AP*
+
+## Assist
+  Assisting with Slow action: +1 Bonus, Slow action (3 AP)
+  Assisting with Normal or Fast action: +1 Bonus, Normal action (2 AP)  
+  Command: +Command Roll, Normal action (2 AP)  
   
 ## Movement
 * Normal: 10m = Fast action (1 AP)
