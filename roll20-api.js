@@ -1,22 +1,125 @@
+"use stict"
+
+/*
+!coriolis
+!coriolis crit
+!coriolis rerolls
+!coriolis push
+!coriolis push [name]
+
+*/
+
 on('chat:message', function(msg) {
 
-    if (msg.type !== "api" ) {
-        return;
-    }
-    const tokens = msg.content.split(" ");
-    const who = `player|${msg.playerid}`;
+    log(msg);
 
-    if (tokens[0] === "!d66") {
-        rollD66(who);
-    }
-    else if (tokens[0] == "!crit") {
-        rollCritical(who);
+    if (msg.type === "general") {
+        handleGeneral(msg);
     }
 
+    if (msg.type === "api" && msg.content.startsWith("!coriolis")) {
+        handleCoriolisApi(msg);
+    }
 });
 
-function rollD66(who) {
-    sendChat(who, `D66: ${randomInteger(6)}${randomInteger(6)}`);
+// Handle all normal rolls
+function handleGeneral(msg) {
+    if (msg.rolltemplate === "coriolis") {       
+        prayToReroll(msg);
+    }
+}
+
+// Handle coriolis script rolls
+function handleCoriolisApi(msg) {
+    const tokens = msg.content.split(" ");
+    const cmd = tokens[1];
+
+    if (cmd === "d66") {
+        rollD66(msg);
+    }
+    else if (cmd == "crit") {
+        rollCritical(msg);
+    }
+    else if (cmd == "test") {
+        test(msg);
+    }
+    else if (cmd == "debug") {
+        debug(msg);
+    }
+    else {
+        showHelp(msg);
+    }
+}
+
+getPlayerId = msg => `player|${msg.playerid}`;
+
+getPlayerName = msg => getObj("player", msg.playerid).get("displayname");
+
+tellUser = (originalMsg, msgToSend) => {
+    const msg = `/w \"${getPlayerName(originalMsg)}\" ${msgToSend}`; 
+    sendChat("Coriolis Help", msg, null, {
+        noarchive: true
+    });
+};
+
+function showHelp(originalMsg) {
+    let msg = `You can do the following:<br>`;
+
+    msg += "Roll on critical damage table<br>"
+    msg += "[!coriolis crit](!coriolis crit)<br>";
+
+    msg += "Roll a basic d66<br>"
+    msg += "[!coriolis d66](!coriolis d66)<br>";
+
+    msg += "API test<br>"
+    msg += "[!coriolis test](!coriolis test)<br>";
+
+    msg += "Dump debug info to API output console<br>"
+    msg += "[!coriolis debug](!coriolis debug)<br>";
+
+    tellUser(originalMsg, msg);
+}
+
+function prayToReroll(originalMsg) {
+
+    const rolled = originalMsg.inlinerolls[0].results.rolls[0].dice;
+    const successes = originalMsg.inlinerolls[0].results.total;
+
+    const msg = `[Push roll ${successes} of ${rolled}](roll 2d6)`;
+    tellUser(originalMsg, msg);
+
+    let msg2 = "[Push roll](!crit)";
+    tellUser(originalMsg, msg2);
+}
+
+function test(originalMsg) {
+
+    let msg = "<div style='background-color: red;'>asdsadas</div>";
+    tellUser(originalMsg, msg);
+
+    let msg2 = "[Push roll](!crit)";
+    tellUser(originalMsg, msg2);
+    
+    let msg3 = "&{template:coriolis}  {{isNotAdvanced=1}} {{name=^{attributes-strength}}} {{roll='2'}} {{pool='3'}} {{reroll='4'}}";
+    tellUser(originalMsg, msg3);
+
+    let msg4 = "&{template:coriolis}  {{isNotAdvanced=1}} {{name=^{attributes-strength}}} {{roll=$[[0]]}} {{pool=$[[1]]}} {{reroll=$[[2]]}}";
+    tellUser(originalMsg, msg3);
+}
+
+function debug(originalMsg) {
+    Log("Campaign:");
+    log(Campaign);
+    log("getAllObjs:");
+    const all = getAllObjs();
+    for (const iterator of all) {
+        log(iterator);
+    }
+}
+
+function rollD66(originalMsg) {
+    // Let everybody see
+    sendChat(getPlayerId(originalMsg), `D66: ${randomInteger(6)}${randomInteger(6)}`);
 }
 
 const criticals = [
@@ -64,7 +167,7 @@ const criticals = [
     [66, "Crushed Skull", "Yes", "-", "You are instantly killed. Your adventure ends here. Create a new PC.", "-"]
 ];
 
-function rollCritical(who) {
+function rollCritical(originalMsg) {
     const result = criticals[randomInteger(criticals.length) - 1];
     const fatal = result[2].startsWith("Yes") ? "&#x2620;" : "";
     const msg = "&{template:default} " + 
@@ -76,6 +179,7 @@ function rollCritical(who) {
     `{{Effect=${result[4]}}}` +
     `{{Heal time=${result[5]}${(result[5] === "-" ? "" : " days")}}}`
 
-    sendChat(who, msg);
+    // Let everybody see
+    sendChat(getPlayerId(originalMsg), msg);
 }
 
