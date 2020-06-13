@@ -1,6 +1,19 @@
-# Combat
+# Skill checks
 
+* Roll dice: each 6 is a success
+  * 3+ successes: Critical success
+  * Avdanced skills require at least 1 point
+* Assists: As for combat rules below  
+* Pray to Icons: Re-roll non-sixes [p55]
+  * Different skills pray to different Icons [p57]
+* Preparatory Prayers (like Singing) [p55]
+  * +1 to rolls of that Icon (+2 in Chapel)
 
+# Darkness points
+ 
+ * Similar to Threat Points [p56]
+
+# Personal Combat
 
 ## Pre-combat
 * Sneak attack: Test INFILTRATION, success = free normal action [p85]
@@ -64,6 +77,15 @@
   * Cover: As armour via table, +1 to attack roll [p93]
   * Prone: -1 to enemy attack, +1 to your attack
 
+# Ship combat
+(Seems very adversarial vs. GM?)
+
+## Turn phases
+* Order Phase: Captains chooose orders, roll command [p166]
+* Engineer phase: Distribute EP [p167]
+* Pilot phase: Maneuver ship [p168]
+* Sensor phase: Lock, break lock, data attacks [p169]
+* Attack phase: FIRE, countermeasures [p169]
 
 
   
