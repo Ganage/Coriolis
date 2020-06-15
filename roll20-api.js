@@ -1,19 +1,10 @@
 "use stict"
 
-/*
-!coriolis
-!coriolis crit
-!coriolis rerolls
-!coriolis push
-!coriolis push [name]
-
-*/
-
 on('chat:message', function(msg) {
 
-    log(msg);
+    // log(msg);
 
-    if (msg.type === "general") {
+    if (msg.type === "general" && false) {
         handleGeneral(msg);
     }
 
