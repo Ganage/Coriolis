@@ -9,6 +9,20 @@
 * Preparatory Prayers (like Singing) [p55]
   * +1 to rolls of that Icon (+2 in Chapel)
 
+## Manipulation bonuses (leverage)
+* +1 [p61]
+  * More people
+  * Doesn't cost opponent
+  * Opponent injured
+  * Helped opponent in past
+  * Present a "strong case"
+* -1
+  * Fewer people
+  * Expensive/risky for opponent
+  * No benefit to opponent
+  * Communication difficulties
+  * Not at close range 
+
 # Darkness points
  
  * Similar to Threat Points [p56]
